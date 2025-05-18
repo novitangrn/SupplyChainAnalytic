@@ -79,6 +79,9 @@ if df is None:
     st.error("Tidak dapat memuat data. Silakan periksa file data Anda.")
     st.stop()
 
+df["shipping_date"], df["order_date"] = df["shipping_date"].str[:10], df["shipping_date"].str[:10]
+df["shipping_date"], df["order_date"] = pd.to_datetime(df["shipping_date"], format='%Y-%m-%d'), pd.to_datetime(df["order_date"], format='%Y-%m-%d')
+
 # Sidebar for filters
 st.sidebar.header("Filter Data")
 
