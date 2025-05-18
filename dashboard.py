@@ -61,10 +61,8 @@ def load_data():
         df = pd.read_csv('incom2024_delay_example_dataset.csv')
         
         # Convert date columns to datetime
-        date_columns = ['order_date', 'shipping_date']
-        for col in date_columns:
-            if col in df.columns:
-                df[col] = pd.to_datetime(df[col])
+        df["shipping_date"], df["order_date"] = df["shipping_date"].str[:10], df["shipping_date"].str[:10]
+        df["shipping_date"], df["order_date"] = pd.to_datetime(df["shipping_date"], format='%Y-%m-%d'), pd.to_datetime(df["order_date"], format='%Y-%m-%d')
         
         return df
     except Exception as e:
@@ -78,9 +76,6 @@ df = load_data()
 if df is None:
     st.error("Tidak dapat memuat data. Silakan periksa file data Anda.")
     st.stop()
-
-df["shipping_date"], df["order_date"] = df["shipping_date"].str[:10], df["shipping_date"].str[:10]
-df["shipping_date"], df["order_date"] = pd.to_datetime(df["shipping_date"], format='%Y-%m-%d'), pd.to_datetime(df["order_date"], format='%Y-%m-%d')
 
 # Sidebar for filters
 st.sidebar.header("Filter Data")
